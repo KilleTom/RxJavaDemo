@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ypz.rxjavademo.MainActivity">
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/create_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="create!"
+        android:padding="10dp"
+        app:cornerRadius="5dp"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textColor="@android:color/black"
+        android:backgroundTint="@android:color/holo_blue_light"
+        app:rippleColor="@android:color/holo_blue_bright"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/create_2"
+         />
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/create_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="create2!"
+        app:cornerRadius="5dp"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        app:layout_constraintStart_toEndOf="@id/create_1"
+        app:layout_constraintEnd_toStartOf="@id/lifecyle"
+        android:textColor="@android:color/black"
+        android:backgroundTint="@android:color/holo_blue_light"
+        app:rippleColor="@android:color/holo_blue_bright"
+        />
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/lifecyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="lifecyle!"
+        app:cornerRadius="5dp"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textColor="@android:color/black"
+        android:backgroundTint="@android:color/holo_blue_light"
+        app:rippleColor="@android:color/holo_blue_bright"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/create_2"
+        />
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/cold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="coldObservable!"
+        app:cornerRadius="5dp"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/create_1"
+        app:layout_constraintEnd_toStartOf="@id/cth"
+        android:textColor="@android:color/black"
+        android:backgroundTint="@android:color/holo_blue_light"
+        app:rippleColor="@android:color/holo_blue_bright"
+        />
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/cth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="coldTobeHot!"
+        app:cornerRadius="5dp"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        app:layout_constraintStart_toEndOf="@id/cold"
+        app:layout_constraintTop_toBottomOf="@id/create_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@android:color/black"
+        android:backgroundTint="@android:color/holo_blue_light"
+        app:rippleColor="@android:color/holo_blue_bright"
+        />
+
+</android.support.constraint.ConstraintLayout>
