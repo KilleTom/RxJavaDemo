@@ -30,6 +30,9 @@ class MainActivity : AppCompatActivity() {
                 .replace(" ", "").replace("*", "")
         println("$message")
         maybeObserver()
+
+
+        resources
     }
 
     /**
