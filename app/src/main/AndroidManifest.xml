@@ -13,6 +13,9 @@
 
         </activity>
         <activity android:name=".operators.OperatorsCreatingActivity">
+
+        </activity>
+        <activity android:name=".operators.OperatorsTransformingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
