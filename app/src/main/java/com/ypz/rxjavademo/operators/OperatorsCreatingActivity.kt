@@ -3,7 +3,6 @@ package com.ypz.rxjavademo.operators
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.view.View
 import com.ypz.rxjavademo.R
 import com.ypz.rxjavademo.base.ItemAdapter
 import com.ypz.rxjavademo.base.ItemValue
@@ -191,14 +190,14 @@ class OperatorsCreatingActivity : AppCompatActivity() {
             logIMessage("operatorsJust", it)
         }
         /*按顺序发射多数据*/
-        Observable.just(1, 2, 3, 4, "item5").subscribe {
+        Observable.just<Any>(1, 2, 3, 4, "item5").subscribe {
             logIMessage("operatorsJust2", it.toString())
         }
     }
 
     private fun operatorsFrom() {
         /*遍历数组示例*/
-        Observable.fromArray("item1", 1).subscribe {
+        Observable.fromArray<Any>("item1", 1).subscribe {
             logIMessage("fromArray", it.toString())
         }
 
@@ -376,19 +375,6 @@ class OperatorsCreatingActivity : AppCompatActivity() {
 
     private fun showResultMessage(message: String) = runOnUiThread {
         show_result.text = message
-    }
-
-    private fun doubleClick(view: View, time: Long, unClickTimeUnit: TimeUnit, comitToDo: () -> Unit) {
-        if (!view.isClickable) return
-        else {
-            view.isClickable = false
-            comitToDo()
-            Observable.timer(time, unClickTimeUnit).observeOn(Schedulers.io()).subscribeOn(AndroidSchedulers.mainThread()).subscribe {
-                runOnUiThread {
-                    view.isClickable = true
-                }
-            }
-        }
     }
 
     override fun onDestroy() {

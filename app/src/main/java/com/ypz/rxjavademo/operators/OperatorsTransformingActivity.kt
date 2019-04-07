@@ -8,8 +8,7 @@ import com.ypz.rxjavademo.base.ItemAdapter
 import com.ypz.rxjavademo.base.ItemValue
 import com.ypz.rxjavademo.base.logIMessage
 import io.reactivex.Observable
-import io.reactivex.Observable.just
-import io.reactivex.Observable.range
+import io.reactivex.Observable.*
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -100,7 +99,7 @@ class OperatorsTransformingActivity : AppCompatActivity() {
              * 转换出不可期望的结果
              *
              * */
-            Observable.just(10, 20, 30).map {
+            just(10, 20, 30).map {
                 (it * 2).toString()
             }.subscribe {
                 logIMessage("operatorsMap", it)
@@ -143,15 +142,14 @@ class OperatorsTransformingActivity : AppCompatActivity() {
      * */
     private fun operatorsFlatMap() {
         logIMessage("operators-flatMap", "直接转换")
-        Observable.just(1, 2, 3).flatMap {
-            Observable.just(it * 2 - 1)
-        }.subscribe {
-            logIMessage("operators-flatMap", "直接转换value:$it")
-        }
+        just(1, 2, 3).flatMap { just(it * 2 - 1) }
+                .subscribe {
+                    logIMessage("operators-flatMap", "直接转换value:$it")
+                }
         logIMessage("operators-flatMap", "直接转换加函数变换")
         val function = Function<Int, Observable<Int>> { value ->
             logIMessage("operators-flatMap", "需要转换的Value:$value")
-            Observable.range(value * 10, 2)
+            range(value * 10, 2)
         }
         val biFunction = BiFunction<Int, Int, Int> { initValue, changeValue ->
             logIMessage("operators-flatMap", "转换前数值：$initValue")
@@ -170,11 +168,10 @@ class OperatorsTransformingActivity : AppCompatActivity() {
      * com.ypz.rxjavademo I/operators-cast: errorMessage:Cannot cast java.lang.String to java.lang.Integer
      * */
     private fun operatorsConcatMap() =
-            just(1, 2, 3).concatMap {
-                Observable.range(it * 10, 2)
-            }.subscribe {
-                logIMessage("operators-concatMap", "value$it")
-            }
+            just(1, 2, 3).concatMap { range(it * 10, 2) }
+                    .subscribe {
+                        logIMessage("operators-concatMap", "value$it")
+                    }
 
     /**
      * 运行结果如下:
@@ -185,7 +182,7 @@ class OperatorsTransformingActivity : AppCompatActivity() {
      * com.ypz.rxjavademo I/operators-concatMap: value30
      * com.ypz.rxjavademo I/operators-concatMap: value31
      * */
-    private fun operatorsCast() = Observable.just(1, 2, "string")
+    private fun operatorsCast() = just<Any>(1, 2, "string")
             .cast(Integer::class.java)//订阅之后才能发横强转
             .subscribe(
                     {
@@ -230,9 +227,7 @@ class OperatorsTransformingActivity : AppCompatActivity() {
      * com.ypz.rxjavademo I/BaseOperatorsBufferObserver: forEachValue[5, 6]
      * */
     private fun operatorsBuffer() =
-            Observable
-                    .range(1, 6).buffer(2)
-                    .subscribe(getBaseOperatorsBufferObserver())
+            range(1, 6).buffer(2).subscribe(getBaseOperatorsBufferObserver())
 
 
     private fun getBaseOperatorsBufferObserver(): Observer<List<Int>> =
@@ -255,11 +250,9 @@ class OperatorsTransformingActivity : AppCompatActivity() {
                 }
             }
 
-    private fun operatorsBuffer_skipComparativeCount(count: Int, skip: Int) =
-            Observable
-                    .range(1, 6)
-                    .buffer(count, skip)
-                    .subscribe(getBaseOperatorsBufferObserver())
+    private fun operatorsBuffer_skipComparativeCount(count: Int, skip: Int) = range(1, 6)
+            .buffer(count, skip)
+            .subscribe(getBaseOperatorsBufferObserver())
 
 
     /**
@@ -281,7 +274,7 @@ class OperatorsTransformingActivity : AppCompatActivity() {
     private fun operatorsWindowCount() {
         var time = 0
         val tag = "operators-WindowCount"
-        Observable.range(1, 9).window(3).subscribe(
+        range(1, 9).window(3).subscribe(
                 object : Observer<Observable<Int>> {
 
                     override fun onComplete() {
@@ -323,8 +316,7 @@ class OperatorsTransformingActivity : AppCompatActivity() {
      * */
     private fun operatorsWindowTimespan() {
         val logTag = "operators-WindowTimespan"
-        Observable
-                .interval(1, TimeUnit.SECONDS)
+        interval(1, TimeUnit.SECONDS)
                 .take(10)
                 .window(3, TimeUnit.SECONDS)
                 .subscribe(getBaseWindowTimeObserver(logTag))
@@ -332,8 +324,7 @@ class OperatorsTransformingActivity : AppCompatActivity() {
 
     private fun operatorsWindowTimesComparativeCount() {
         val tag = "operators-WindowTimesCompeteCount"
-        Observable
-                .interval(1000, TimeUnit.MILLISECONDS)
+        interval(1000, TimeUnit.MILLISECONDS)
                 .take(20)
                 .window(5, 3, TimeUnit.SECONDS)
                 .subscribe(getBaseWindowTimeObserver(tag))
@@ -353,8 +344,7 @@ class OperatorsTransformingActivity : AppCompatActivity() {
      * */
     private fun operatorsWindowTimesCompeteCount() {
         val tag = "operators-WindowTimesCompeteCount"
-        Observable
-                .range(1, 6)
+        range(1, 6)
                 .window(4, TimeUnit.SECONDS, 3)
                 .subscribe(object : Observer<Observable<Int>> {
                     override fun onComplete() {
@@ -405,7 +395,7 @@ class OperatorsTransformingActivity : AppCompatActivity() {
      * */
     private fun operatorsScan() {
         var message = "从0加到1是:"
-        Observable.range(1, 10).scan { t1: Int, t2: Int ->
+        range(1, 10).scan { t1: Int, t2: Int ->
             message = "从0加到${t2}是:"
             t1 + t2
         }.subscribe {
