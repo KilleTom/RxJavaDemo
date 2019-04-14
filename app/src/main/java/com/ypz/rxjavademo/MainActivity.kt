@@ -1,8 +1,8 @@
 package com.ypz.rxjavademo
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.ypz.rxjavademo.base.logIMessage
 import io.reactivex.*
 import io.reactivex.functions.Consumer

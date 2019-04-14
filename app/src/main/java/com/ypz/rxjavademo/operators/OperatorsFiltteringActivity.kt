@@ -1,8 +1,8 @@
 package com.ypz.rxjavademo.operators
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ypz.rxjavademo.R
 import com.ypz.rxjavademo.base.*
 import io.reactivex.Observable

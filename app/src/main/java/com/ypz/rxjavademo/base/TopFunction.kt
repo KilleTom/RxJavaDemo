@@ -17,33 +17,37 @@ import java.util.concurrent.TimeUnit
  *  email: 1986545332@qq.com
  */
 @SuppressLint("LongLogTag")
-fun logIMessage(tag:String,message:String) = Log.i(tag,message)
+fun logIMessage(tag: String, message: String) = Log.i(tag, message)
+
+@SuppressLint("LongLogTag")
+fun <T> getBaseObsever(tag: String, getDisposable: (Disposable) -> Unit, done: () -> Unit): Observer<T> =
+        object : Observer<T> {
+            override fun onComplete() {
+                done()
+            }
+
+            override fun onSubscribe(d: Disposable) {
+                logIMessage(tag, "onSubscribe")
+                getDisposable(d)
+            }
+
+            override fun onNext(t: T) {
+                logIMessage(tag, "onNextValue:${t.toString()}")
+            }
+
+            override fun onError(e: Throwable) {
+                logIMessage(tag, "onErrorMessage:${e.message ?: "未知错误"}")
+            }
+        }
+
+fun <T> getBaseObsever(tag: String): Observer<T> {
+    var dis: Disposable? = null
+    return getBaseObsever(tag, { disposable -> dis = disposable }, {  dis?.dispose() })
+}
 
 //获取Observer<Long>
-fun getBaseLongObserver(tag: String, getDisposable: (Disposable) -> Unit, done: () -> Unit): Observer<Long> = object : Observer<Long> {
-    override fun onComplete() {
-        logIMessage(tag, "onComplete")
-        done()
-    }
-
-    override fun onSubscribe(p0: Disposable) {
-        logIMessage(tag, "onSubscribe")
-        getDisposable(p0)
-        if (!p0.isDisposed){
-
-        }
-    }
-
-    override fun onNext(p0: Long) {
-        logIMessage(tag, "onNext:value$p0")
-    }
-
-    override fun onError(p0: Throwable) {
-        logIMessage(tag, "onError:value$p0")
-        done()
-    }
-
-}
+fun getBaseLongObserver(tag: String, getDisposable: (Disposable) -> Unit, done: () -> Unit): Observer<Long> =
+        getBaseObsever(tag, getDisposable, done)
 
 //获取MaybeObserver<Long>
 fun getBaseLongMaybeObserver(tag: String, getDisposable: (Disposable) -> Unit, done: () -> Unit): MaybeObserver<Long> = object : MaybeObserver<Long> {
@@ -67,9 +71,17 @@ fun getBaseLongMaybeObserver(tag: String, getDisposable: (Disposable) -> Unit, d
     }
 }
 
-fun getBaseLongSingleObserver(tag: String, getDisposable: (Disposable) -> Unit, done: () -> Unit): SingleObserver<Long> = object : SingleObserver<Long> {
-    override fun onSuccess(t: Long) {
-        logIMessage(tag, "onNext:value$t")
+fun getBaseLongSingleObserver(tag: String, getDisposable: (Disposable) -> Unit, done: () -> Unit): SingleObserver<Long> =
+        getBaseSingleObserver(tag, getDisposable, done)
+
+fun <T> getBaseSingleObserver(tag: String): SingleObserver<T> {
+    var disposable: Disposable? = null
+    return getBaseSingleObserver(tag, { disposable = it }, { disposable?.dispose() })
+}
+
+fun <T> getBaseSingleObserver(tag: String, getDisposable: (Disposable) -> Unit, done: () -> Unit): SingleObserver<T> = object : SingleObserver<T> {
+    override fun onSuccess(t: T) {
+        logIMessage(tag, "onNext:value-${t.toString()}")
         done()
     }
 
@@ -84,7 +96,6 @@ fun getBaseLongSingleObserver(tag: String, getDisposable: (Disposable) -> Unit, 
     }
 
 }
-
 
 fun doubleClick(view: View, time: Long, unClickTimeUnit: TimeUnit, comitToDo: () -> Unit) {
     if (!view.isClickable) return

@@ -19,6 +19,10 @@
 
         </activity>
         <activity android:name=".operators.OperatorsFiltteringActivity">
+
+        </activity>
+
+        <activity android:name=".operators.OperatorsConditional_BooleanActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

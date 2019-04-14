@@ -1,8 +1,9 @@
 package com.ypz.rxjavademo.operators
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ypz.rxjavademo.R
 import com.ypz.rxjavademo.base.ItemAdapter
 import com.ypz.rxjavademo.base.ItemValue
@@ -203,6 +204,7 @@ class OperatorsTransformingActivity : AppCompatActivity() {
      * com.ypz.rxjavademo I/operators-groupBy: 奇数7
      * com.ypz.rxjavademo I/operators-groupBy: 奇数9
      * */
+    @SuppressLint("CheckResult")
     private fun operatorsGroupBy() {
         val orbseverabe = range(1, 10).groupBy(object : Function<Int, String> {
             override fun apply(t: Int): String {
@@ -283,6 +285,7 @@ class OperatorsTransformingActivity : AppCompatActivity() {
 
                     override fun onSubscribe(d: Disposable) {}
 
+                    @SuppressLint("CheckResult")
                     override fun onNext(t: Observable<Int>) {
                         logIMessage(tag, "onNext")
                         time += 1
