@@ -80,6 +80,7 @@ class OperatorsConditional_BooleanActivity : AppCompatActivity() {
                 Observable.just(1).delay(1, TimeUnit.SECONDS),
                 Observable.just(5)
         )).subscribe(getBaseObsever("operatorsAmb"))
+        
     }
 
     /**
