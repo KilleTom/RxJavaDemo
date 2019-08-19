@@ -1,8 +1,11 @@
 package com.ypz.rxjavademo.base
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.MaybeObserver
 import io.reactivex.Observable
 import io.reactivex.Observer
@@ -106,4 +109,20 @@ fun doubleClick(view: View, time: Long, unClickTimeUnit: TimeUnit, comitToDo: ()
             view.isClickable = true
         }
     }
+}
+
+inline fun <reified T : Activity> Activity.startActivity() {
+    startActivity(Intent(this, T::class.java))
+}
+
+inline fun <reified T : AppCompatActivity> Activity.startAppCompatActivity() {
+    startActivity(Intent(this, T::class.java))
+}
+
+inline fun <reified T : Activity> AppCompatActivity.startActivity() {
+    startActivity(Intent(this, T::class.java))
+}
+
+inline fun <reified T : AppCompatActivity> AppCompatActivity.startAppCompatActivity() {
+    startActivity(Intent(this, T::class.java))
 }

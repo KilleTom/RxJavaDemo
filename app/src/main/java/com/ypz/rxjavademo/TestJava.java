@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 
 
+import com.ypz.rxjavademo.base.ItemValue;
+
 import java.util.concurrent.TimeUnit;
 
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
@@ -18,6 +20,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 import static io.reactivex.Observable.create;
 import static io.reactivex.Observable.empty;
@@ -31,6 +34,8 @@ import static io.reactivex.Observable.timer;
  */
 public class TestJava {
 
+    private ItemValue itemValue = null;
+
     public void test() {
 
 
@@ -42,29 +47,23 @@ public class TestJava {
 
         };
 
-        Function<Integer,Observable<Integer>> function = new Function<Integer, Observable<Integer>>() {
+        Function<Integer, Observable<Integer>> function = new Function<Integer, Observable<Integer>>() {
             @Override
             public Observable<Integer> apply(Integer integer) throws Exception {
-                return Observable.range(integer*10,2);
-            }
-        } ;
-        BiFunction<Integer,Integer,Observable<Integer>> biFunction = new BiFunction<Integer, Integer, Observable<Integer>>() {
-            @Override
-            public Observable<Integer> apply(Integer initValue, Integer changeValue) throws Exception {
-
-                return Observable.just(initValue+changeValue);
+                return Observable.range(integer * 10, 2);
             }
         };
-         just(1, 2, 3).flatMap(function, biFunction).subscribe();
+        BiFunction<Integer, Integer, Observable<Integer>> biFunction = (initValue, changeValue) -> Observable.just(initValue + changeValue);
+        just(1, 2, 3).flatMap(function, biFunction).subscribe();
 
-         range(1,10).groupBy(new Function<Integer, String>() {
-             @Override
-             public String apply(Integer integer) throws Exception {
-                 return null;
-             }
-         }).subscribe(stringIntegerGroupedObservable -> {
+        range(1, 10).groupBy(new Function<Integer, String>() {
+            @Override
+            public String apply(Integer integer) throws Exception {
+                return null;
+            }
+        }).subscribe(stringIntegerGroupedObservable -> {
 
-         });
+        });
 
         create(new ObservableOnSubscribe<String>() {
             @Override
@@ -113,11 +112,29 @@ public class TestJava {
         });
 
 
+        Observable<Long> observable2 = Observable.interval(150, TimeUnit.MILLISECONDS)
+                .take(4)
+                .subscribeOn(Schedulers.newThread());
+        Observable.interval(100, TimeUnit.MILLISECONDS)
+                .take(3)
+                .subscribeOn(Schedulers.newThread())
+                .withLatestFrom(observable2, (aLong, aLong2) -> {
+                    System.out.print("aLong:" + aLong + "\t aLong2:" + aLong2 + "\t");
+                    return aLong + aLong2;
+                })
+                .subscribe(o -> System.out.println("===>" + o + "\t"));
+
+
     }
 
     public Drawable sub(Resources resources, int resourcesId) {
         RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(resources, BitmapFactory.decodeResource(resources, resourcesId));
         roundedBitmapDrawable.setCornerRadius(30);
         return roundedBitmapDrawable;
+    }
+
+    public ItemValue getItemValue() {
+        if (itemValue==null) return new ItemValue("",1L);
+        return itemValue;
     }
 }

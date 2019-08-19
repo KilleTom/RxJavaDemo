@@ -22,16 +22,7 @@ class MainActivity : AppCompatActivity() {
         lifecyle.setOnClickListener { lifeCycleExample() }
         cold.setOnClickListener { coldObservable() }
         cth.setOnClickListener { coldTobeHot() }
-        val message = """RefCount 操作 符 把 从 一个 可连接 的 Observable 连接 和 断开 的 过程 自动化 了。
-     * 它 操作 一个 可连接 的 Observable， 返回 一个 普通 的 Observable。
-     * 当 第一个 订阅 者/ 观察者 订阅 这个 Observable 时， RefCount 连接 到 下层 的 可连接 Observable。
-     * RefCount 跟踪 有 多少 个 观察者 订阅 它， 直到 最后 一个 观察者 完成， 才 断开 与 下层 可连接 Observable 的 连接。
-     * 如果 所有 的 订阅 者/ 观察者 都 取消 订阅 了， 则 数据 流 停止； 如果 重新 订阅， 则 重新 开始 数据 流。"""
-                .replace(" ", "").replace("*", "")
-        println("$message")
         maybeObserver()
-
-
         resources
     }
 

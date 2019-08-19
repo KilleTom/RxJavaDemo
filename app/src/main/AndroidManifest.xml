@@ -9,25 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-
-        </activity>
-        <activity android:name=".operators.OperatorsCreatingActivity">
-
-        </activity>
-        <activity android:name=".operators.OperatorsTransformingActivity">
-
-        </activity>
-        <activity android:name=".operators.OperatorsFiltteringActivity">
-
-        </activity>
-
-        <activity android:name=".operators.OperatorsConditional_BooleanActivity">
+        <activity android:name=".HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".operators.OperatorsCreatingActivity"/>
+        <activity android:name=".operators.OperatorsTransformingActivity"/>
+        <activity android:name=".operators.OperatorsFiltteringActivity"/>
+        <activity android:name=".operators.OperatorsConditional_BooleanActivity"/>
+        <activity android:name=".operators.OperatorsCombiningActivity"/>
+        <activity android:name=".operators.OperatorsConnectActivity"/>
     </application>
 
 </manifest>
